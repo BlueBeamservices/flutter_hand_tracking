@@ -7,12 +7,11 @@ import 'package:flutter_hand_tracking_plugin/gen/landmark.pb.dart';
 
 const NAMESPACE = "plugins.zhzh.xyz/flutter_hand_tracking_plugin";
 
-typedef void HandTrackingViewCreatedCallback(
+typedef HandTrackingViewCreatedCallback = void Function(
     HandTrackingViewController controller);
 
 class HandTrackingView extends StatelessWidget {
-  const HandTrackingView({@required this.onViewCreated})
-      : assert(onViewCreated != null);
+  const HandTrackingView({required this.onViewCreated});
 
   final HandTrackingViewCreatedCallback onViewCreated;
 
@@ -22,9 +21,8 @@ class HandTrackingView extends StatelessWidget {
       case TargetPlatform.android:
         return AndroidView(
           viewType: "$NAMESPACE/view",
-          onPlatformViewCreated: (int id) => onViewCreated == null
-              ? null
-              : onViewCreated(HandTrackingViewController._(id)),
+          onPlatformViewCreated: (int id) =>
+              onViewCreated(HandTrackingViewController._(id)),
         );
       case TargetPlatform.fuchsia:
       case TargetPlatform.iOS:
@@ -44,7 +42,7 @@ class HandTrackingViewController {
       : _methodChannel = MethodChannel("$NAMESPACE/$id"),
         _eventChannel = EventChannel("$NAMESPACE/$id/landmarks");
 
-  Future<String> get platformVersion async =>
+  Future<String?> get platformVersion async =>
       await _methodChannel.invokeMethod("getPlatformVersion");
 
   Stream<NormalizedLandmarkList> get landMarksStream async* {

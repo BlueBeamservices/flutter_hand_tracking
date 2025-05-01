@@ -21,19 +21,19 @@ class HandGestureRecognition {
           double pseudoFixKeyPoint, double point1, double point2) =>
       point1 < pseudoFixKeyPoint && point2 < pseudoFixKeyPoint;
 
-  static bool thumbIsOpen(List landmarks) =>
+  static bool thumbIsOpen(List<NormalizedLandmark> landmarks) =>
       fingerIsOpen(landmarks[2].x, landmarks[3].x, landmarks[4].x);
 
-  static bool firstFingerIsOpen(List landmarks) =>
+  static bool firstFingerIsOpen(List<NormalizedLandmark> landmarks) =>
       fingerIsOpen(landmarks[6].y, landmarks[7].y, landmarks[8].y);
 
-  static bool secondFingerIsOpen(List landmarks) =>
+  static bool secondFingerIsOpen(List<NormalizedLandmark> landmarks) =>
       fingerIsOpen(landmarks[10].y, landmarks[11].y, landmarks[12].y);
 
-  static bool thirdFingerIsOpen(List landmarks) =>
+  static bool thirdFingerIsOpen(List<NormalizedLandmark> landmarks) =>
       fingerIsOpen(landmarks[14].y, landmarks[15].y, landmarks[16].y);
 
-  static bool fourthFingerIsOpen(List landmarks) =>
+  static bool fourthFingerIsOpen(List<NormalizedLandmark> landmarks) =>
       fingerIsOpen(landmarks[18].y, landmarks[19].y, landmarks[20].y);
 
   static double getEuclideanDistanceAB(
@@ -44,8 +44,8 @@ class HandGestureRecognition {
           NormalizedLandmark point1, NormalizedLandmark point2) =>
       getEuclideanDistanceAB(point1.x, point1.y, point2.x, point2.y) < 0.1;
 
-  static Gestures handGestureRecognition(List landmarks) {
-    if (landmarks.length == 0) return Gestures.UNKNOWN;
+  static Gestures handGestureRecognition(List<NormalizedLandmark> landmarks) {
+    if (landmarks.isEmpty) return Gestures.UNKNOWN;
     // finger states
     bool thumbIsOpen = HandGestureRecognition.thumbIsOpen(landmarks);
     bool firstFingerIsOpen =

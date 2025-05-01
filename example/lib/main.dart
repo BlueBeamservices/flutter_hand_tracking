@@ -14,8 +14,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  HandTrackingViewController _controller;
-  Gestures _gesture;
+  HandTrackingViewController? _controller;
+  Gestures? _gesture;
 
   Color _selectedColor = Colors.black;
   Color _pickerColor = Colors.black;
@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
   double _canvasWeight = 300;
 
   bool _showBottomList = false;
-  List<DrawingPoints> _points = List();
+  List<DrawingPoints?> _points = [];
   SelectedMode _selectedMode = SelectedMode.StrokeWidth;
 
   List<Color> _colors = [
@@ -36,29 +36,31 @@ class _MyAppState extends State<MyApp> {
     Colors.black
   ];
 
-  void continueDraw(landmark) => setState(() => _points.add(DrawingPoints(
-      points: Offset(landmark.x * _canvasWeight, landmark.y * _canvasHeight),
-      paint: Paint()
-        ..strokeCap = StrokeCap.butt
-        ..isAntiAlias = true
-        ..color = _selectedColor.withOpacity(_opacity)
-        ..strokeWidth = _strokeWidth)));
+  void continueDraw(NormalizedLandmark landmark) =>
+      setState(() => _points.add(DrawingPoints(
+          points:
+              Offset(landmark.x * _canvasWeight, landmark.y * _canvasHeight),
+          paint: Paint()
+            ..strokeCap = StrokeCap.butt
+            ..isAntiAlias = true
+            ..color = _selectedColor.withOpacity(_opacity)
+            ..strokeWidth = _strokeWidth)));
 
   void finishDraw() => setState(() => _points.add(null));
 
   void _onLandMarkStream(NormalizedLandmarkList landmarkList) {
-    if (landmarkList.landmark != null && landmarkList.landmark.length != 0) {
+    if (landmarkList.landmark.isNotEmpty) {
       setState(() => _gesture =
           HandGestureRecognition.handGestureRecognition(landmarkList.landmark));
       if (_gesture == Gestures.ONE)
         continueDraw(landmarkList.landmark[8]);
-      else if (_points.length != 0) finishDraw();
+      else if (_points.isNotEmpty) finishDraw();
     } else
       _gesture = null;
   }
 
-  getColorList() {
-    List<Widget> listWidget = List();
+  List<Widget> getColorList() {
+    List<Widget> listWidget = [];
     for (Color color in _colors) {
       listWidget.add(colorCircle(color));
     }
@@ -66,26 +68,27 @@ class _MyAppState extends State<MyApp> {
       onTap: () {
         showDialog(
           context: context,
-          child: AlertDialog(
-            title: const Text('选择颜色'),
-            content: SingleChildScrollView(
-              child: ColorPicker(
-                pickerColor: _pickerColor,
-                onColorChanged: (color) => _pickerColor = color,
-//                enableLabel: true,
-                pickerAreaHeightPercent: 0.8,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Select Color'),
+              content: SingleChildScrollView(
+                child: ColorPicker(
+                  pickerColor: _pickerColor,
+                  onColorChanged: (color) => _pickerColor = color,
+                  pickerAreaHeightPercent: 0.8,
+                ),
               ),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: const Text('保存'),
-                onPressed: () {
-                  setState(() => _selectedColor = _pickerColor);
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Save'),
+                  onPressed: () {
+                    setState(() => _selectedColor = _pickerColor);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
         );
       },
       child: ClipOval(
@@ -135,7 +138,7 @@ class _MyAppState extends State<MyApp> {
                 onViewCreated: (HandTrackingViewController c) => setState(() {
                   _controller = c;
                   if (_controller != null)
-                    _controller.landMarksStream.listen(_onLandMarkStream);
+                    _controller!.landMarksStream.listen(_onLandMarkStream);
                 }),
               ),
             ),
@@ -240,23 +243,23 @@ class _MyAppState extends State<MyApp> {
 }
 
 class DrawingPainter extends CustomPainter {
-  DrawingPainter({this.pointsList});
+  DrawingPainter({required this.pointsList});
 
-  List<DrawingPoints> pointsList;
-  List<Offset> offsetPoints = List();
+  List<DrawingPoints?> pointsList;
+  List<Offset> offsetPoints = [];
 
   @override
   void paint(Canvas canvas, Size size) {
     for (int i = 0; i < pointsList.length - 1; i++) {
       if (pointsList[i] != null && pointsList[i + 1] != null) {
-        canvas.drawLine(pointsList[i].points, pointsList[i + 1].points,
-            pointsList[i].paint);
+        canvas.drawLine(pointsList[i]!.points, pointsList[i + 1]!.points,
+            pointsList[i]!.paint);
       } else if (pointsList[i] != null && pointsList[i + 1] == null) {
         offsetPoints.clear();
-        offsetPoints.add(pointsList[i].points);
+        offsetPoints.add(pointsList[i]!.points);
         offsetPoints.add(Offset(
-            pointsList[i].points.dx + 0.1, pointsList[i].points.dy + 0.1));
-        canvas.drawPoints(PointMode.points, offsetPoints, pointsList[i].paint);
+            pointsList[i]!.points.dx + 0.1, pointsList[i]!.points.dy + 0.1));
+        canvas.drawPoints(PointMode.points, offsetPoints, pointsList[i]!.paint);
       }
     }
   }
@@ -269,7 +272,7 @@ class DrawingPoints {
   Paint paint;
   Offset points;
 
-  DrawingPoints({this.points, this.paint});
+  DrawingPoints({required this.points, required this.paint});
 }
 
 enum SelectedMode { StrokeWidth, Opacity, Color }
