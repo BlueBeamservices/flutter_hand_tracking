@@ -25,7 +25,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    namespace "io.flutter.plugins.flutterhandtrackingplugin" // Add this line
+    namespace "xyz.zhzh.flutter_hand_tracking_plugin"
     compileSdkVersion 33
 
     sourceSets {
