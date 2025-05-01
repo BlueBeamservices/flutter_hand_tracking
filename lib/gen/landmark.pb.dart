@@ -27,7 +27,7 @@ class Landmark extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   Landmark clone() => Landmark()..mergeFromMessage(this);
   Landmark copyWith(void Function(Landmark) updates) =>
-      super.copyWith((message) => updates(message as Landmark));
+      super.copyWith((message) => updates(message as Landmark)) as Landmark;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static Landmark create() => Landmark._();
@@ -92,7 +92,8 @@ class LandmarkList extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   LandmarkList clone() => LandmarkList()..mergeFromMessage(this);
   LandmarkList copyWith(void Function(LandmarkList) updates) =>
-      super.copyWith((message) => updates(message as LandmarkList));
+      super.copyWith((message) => updates(message as LandmarkList))
+          as LandmarkList;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static LandmarkList create() => LandmarkList._();
@@ -126,7 +127,8 @@ class NormalizedLandmark extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   NormalizedLandmark clone() => NormalizedLandmark()..mergeFromMessage(this);
   NormalizedLandmark copyWith(void Function(NormalizedLandmark) updates) =>
-      super.copyWith((message) => updates(message as NormalizedLandmark));
+      super.copyWith((message) => updates(message as NormalizedLandmark))
+          as NormalizedLandmark;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static NormalizedLandmark create() => NormalizedLandmark._();
@@ -194,7 +196,8 @@ class NormalizedLandmarkList extends $pb.GeneratedMessage {
       NormalizedLandmarkList()..mergeFromMessage(this);
   NormalizedLandmarkList copyWith(
           void Function(NormalizedLandmarkList) updates) =>
-      super.copyWith((message) => updates(message as NormalizedLandmarkList));
+      super.copyWith((message) => updates(message as NormalizedLandmarkList))
+          as NormalizedLandmarkList;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static NormalizedLandmarkList create() => NormalizedLandmarkList._();
