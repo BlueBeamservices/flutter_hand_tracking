@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_hand_tracking_plugin (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_hand_tracking_plugin (from `.symlinks/plugins/flutter_hand_tracking_plugin/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_hand_tracking_plugin:
+    :path: ".symlinks/plugins/flutter_hand_tracking_plugin/ios"
+
+SPEC CHECKSUMS:
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_hand_tracking_plugin: 0d5a49d08e04682ba1826db419830d1d932e53fa
+
+PODFILE CHECKSUM: 7096d69c085921256031c0b77f50e3baf9b14e24
+
+COCOAPODS: 1.16.2
